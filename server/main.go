@@ -25,7 +25,7 @@ func main() {
 	pb.RegisterAuthorServiceServer(s, service.NewAuthorService(db))
 	pb.RegisterBookServiceServer(s, service.NewBookService(db))
 	pb.RegisterGenreServiceServer(s, service.NewGenreService(db))
-	
+	pb.RegisterBorrowerServiceServer(s, service.NewBorrowerService(db))
 
 	log.Printf("server listening at %v", liss.Addr())
 	if err := s.Serve(liss); err != nil {

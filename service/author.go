@@ -36,12 +36,12 @@ func (c *AuthorService) GetAllAuthors(ctx context.Context, author *pb.AuthorReq)
 }
 
 func (c *AuthorService) GetByIdAuthor(ctx context.Context, id *pb.ById) (*pb.AuthorRes, error) {
-	prod, err := c.stg.Author().GetById(id)
+	res, err := c.stg.Author().GetById(id)
 	if err != nil {
 		log.Print(err)
 	}
 
-	return prod, err
+	return res, err
 }
 
 func (c *AuthorService) UpdateAuthor(ctx context.Context, author *pb.AuthorRes) (*pb.Void, error) {

@@ -11,10 +11,11 @@ import (
 )
 
 type Storage struct {
-	Db      *sql.DB
-	Books   u.Book
-	Authors u.Author
-	Genres  u.Genre
+	Db        *sql.DB
+	Books     u.Book
+	Authors   u.Author
+	Genres    u.Genre
+	Borrowers u.Borrower
 }
 
 func NewPostgresStorage() (u.StorageRoot, error) {
@@ -54,4 +55,11 @@ func (s *Storage) Genre() u.Genre {
 		s.Genres = &GenreStorage{db: s.Db}
 	}
 	return s.Genres
+}
+
+func (s *Storage) Borrower() u.Borrower {
+	if s.Borrowers == nil {
+		s.Borrowers = &BorrowerStorage{db: s.Db}
+	}
+	return s.Borrowers
 }

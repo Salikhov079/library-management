@@ -16,7 +16,7 @@ func TestCreateGenre(t *testing.T) {
 	}
 
 	genre := &pb.Genre{
-		Name: "Jangari",	
+		Name: "Jangari",
 	}
 
 	result, err := stg.Genre().Create(genre)
@@ -59,7 +59,7 @@ func TestUpdateGenre(t *testing.T) {
 	}
 
 	genre := &pb.Genre{
-		Id: "7a55f1a2-ac9d-4a5c-bab3-9a823ed328ba",
+		Id:   "7a55f1a2-ac9d-4a5c-bab3-9a823ed328ba",
 		Name: "Komedik",
 	}
 	result, err := stg.Genre().Update(genre)

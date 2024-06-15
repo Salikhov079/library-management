@@ -8,6 +8,7 @@ type StorageRoot interface {
 	Book() Book
 	Author() Author
 	Genre() Genre
+	Borrower() Borrower
 }
 
 type Book interface {
@@ -31,5 +32,13 @@ type Genre interface {
 	GetById(id *pb.ById) (*pb.Genre, error)
 	GetAll(_ *pb.Genre) (*pb.AllGenres, error)
 	Update(author *pb.Genre) (*pb.Void, error)
+	Delete(id *pb.ById) (*pb.Void, error)
+}
+
+type Borrower interface {
+	Create(author *pb.BorrowerReq) (*pb.Void, error)
+	GetById(id *pb.ById) (*pb.BorrowerRes, error)
+	GetAll(_ *pb.BorrowerReq) (*pb.AllBorrowers, error)
+	Update(author *pb.BorrowerRes) (*pb.Void, error)
 	Delete(id *pb.ById) (*pb.Void, error)
 }

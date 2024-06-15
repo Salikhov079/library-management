@@ -36,12 +36,12 @@ func (c *BookService) GetAllBooks(ctx context.Context, book *pb.BookReq) (*pb.Al
 }
 
 func (c *BookService) GetByIdBook(ctx context.Context, id *pb.ById) (*pb.BookRes, error) {
-	prod, err := c.stg.Book().GetById(id)
+	res, err := c.stg.Book().GetById(id)
 	if err != nil {
 		log.Print(err)
 	}
 
-	return prod, err
+	return res, err
 }
 
 func (c *BookService) UpdateBook(ctx context.Context, book *pb.BookRes) (*pb.Void, error) {

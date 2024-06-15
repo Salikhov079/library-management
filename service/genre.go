@@ -36,12 +36,12 @@ func (c *GenreService) GetAllGenres(ctx context.Context, genre *pb.Genre) (*pb.A
 }
 
 func (c *GenreService) GetByIdGenre(ctx context.Context, id *pb.ById) (*pb.Genre, error) {
-	prod, err := c.stg.Genre().GetById(id)
+	res, err := c.stg.Genre().GetById(id)
 	if err != nil {
 		log.Print(err)
 	}
 
-	return prod, err
+	return res, err
 }
 
 func (c *GenreService) UpdateGenre(ctx context.Context, genre *pb.Genre) (*pb.Void, error) {
