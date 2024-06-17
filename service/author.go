@@ -26,8 +26,8 @@ func (c *AuthorService) CreateAuthor(ctx context.Context, author *pb.AuthorReq) 
 	return res, err
 }
 
-func (c *AuthorService) GetAllAuthors(ctx context.Context, author *pb.AuthorReq) (*pb.AllAuthors, error) {
-	res, err := c.stg.Author().GetAll(author)
+func (c *AuthorService) GetAllAuthors(ctx context.Context, filter *pb.FilterAuthor) (*pb.AllAuthors, error) {
+	res, err := c.stg.Author().GetAll(filter)
 	if err != nil {
 		log.Print(err)
 	}

@@ -47,7 +47,7 @@ func TestGetAllGenre(t *testing.T) {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
 
-	genres, err := stg.Genre().GetAll(&pb.Genre{})
+	genres, err := stg.Genre().GetAll(&pb.FilterGenre{})
 	assert.NoError(t, err)
 	assert.NotNil(t, genres)
 }

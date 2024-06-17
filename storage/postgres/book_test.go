@@ -50,7 +50,7 @@ func TestGetAllBook(t *testing.T) {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
 
-	books, err := stg.Book().GetAll(&pb.BookReq{})
+	books, err := stg.Book().GetAll(&pb.FilterBook{})
 	assert.NoError(t, err)
 	assert.NotNil(t, books)
 }

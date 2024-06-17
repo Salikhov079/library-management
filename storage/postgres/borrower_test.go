@@ -50,7 +50,7 @@ func TestGetAllBorrwers(t *testing.T) {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
 
-	borrowers, err := stg.Borrower().GetAll(&pb.BorrowerReq{})
+	borrowers, err := stg.Borrower().GetAll(&pb.FilterBorrower{})
 	assert.NoError(t, err)
 	assert.NotNil(t, borrowers)
 }
@@ -88,4 +88,15 @@ func TestDeleteBorrower(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Nil(t, result)
+}
+
+func TestGetAllIdBorrwers(t *testing.T) {
+	stg, err := NewPostgresStorage()
+	if err != nil {
+		log.Fatal("Error while connection on db: ", err.Error())
+	}
+
+	borrowers, err := stg.Borrower().GetAllId(&pb.Void{})
+	assert.NoError(t, err)
+	assert.NotNil(t, borrowers)
 }

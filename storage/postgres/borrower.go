@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"database/sql"
+	"fmt"
 	"time"
 
 	pb "github.com/Salikhov079/library-management/genprotos"
@@ -75,8 +76,10 @@ func (p *BorrowerStorage) GetById(id *pb.ById) (*pb.BorrowerRes, error) {
 	return &borrower, nil
 }
 
-func (p *BorrowerStorage) GetAll(_ *pb.BorrowerReq) (*pb.AllBorrowers, error) {
+func (p *BorrowerStorage) GetAll(filter *pb.FilterBorrower) (*pb.AllBorrowers, error) {
 	borrowers := &pb.AllBorrowers{}
+	var arr []interface{}
+	count := 1
 
 	query := `
 		SELECT
@@ -94,10 +97,49 @@ func (p *BorrowerStorage) GetAll(_ *pb.BorrowerReq) (*pb.AllBorrowers, error) {
 		ON 
 			b.genre_id = g.id
 		WHERE 
-			br.deleted_at = 0
 	`
+	if len(filter.BorrowDate) > 0 {
+		if count == 1 {
+			query += fmt.Sprintf(" br.borrow_date=$%d ", count)
+			count++
+		} else {
+			query += fmt.Sprintf(" and br.borrow_date=$%d ", count)
+			count++
+		}
+		arr = append(arr, filter.BorrowDate)
+	}
 
-	row, err := p.db.Query(query)
+	if len(filter.ReturnDate) > 0 {
+		if count == 1 {
+			query += fmt.Sprintf(" br.return_date=$%d ", count)
+			count++
+		} else {
+			query += fmt.Sprintf(" and br.return_date=$%d ", count)
+			count++
+		}
+		arr = append(arr, filter.ReturnDate)
+	}
+
+	if len(filter.UserId) > 0 {
+		if count == 1 {
+			query += fmt.Sprintf(" br.user_id=$%d ", count)
+			count++
+		} else {
+			query += fmt.Sprintf(" and br.user_id=$%d ", count)
+			count++
+		}
+		arr = append(arr, filter.UserId)
+	}
+
+	if filter.DeletedAt != "true" {
+		if count == 1 {
+			query += " br.deleted_at = 0 "
+		} else {
+			query += " and br.deleted_at = 0 "
+		}
+	}
+
+	row, err := p.db.Query(query, arr...)
 	if err != nil {
 		return nil, err
 	}
@@ -151,4 +193,35 @@ func (p *BorrowerStorage) Delete(id *pb.ById) (*pb.Void, error) {
 	`
 	_, err := p.db.Exec(query, id.Id, time.Now().Unix())
 	return nil, err
+}
+
+func (p *BorrowerStorage) GetAllId(*pb.Void) (*pb.AllBorrowers, error) {
+	borrowers := &pb.AllBorrowers{}
+
+	query := `
+		SELECT
+			id, borrow_date, return_date
+		FROM 
+			borrowers
+		WHERE 
+			deleted_at = 0
+	`
+
+	row, err := p.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+
+	for row.Next() {
+		var borrower pb.BorrowerRes
+
+		err := row.Scan(&borrower.Id, &borrower.BorrowDate, &borrower.ReturnDate)
+		if err != nil {
+			return nil, err
+		}
+
+		borrowers.Borrowers = append(borrowers.Borrowers, &borrower)
+	}
+
+	return borrowers, nil
 }

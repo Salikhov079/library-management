@@ -50,7 +50,7 @@ func (p *AuthorStorage) GetById(id *pb.ById) (*pb.AuthorRes, error) {
 	return &author, nil
 }
 
-func (p *AuthorStorage) GetAll(author *pb.AuthorReq) (*pb.AllAuthors, error) {
+func (p *AuthorStorage) GetAll(filter *pb.FilterAuthor) (*pb.AllAuthors, error) {
 	authors := &pb.AllAuthors{}
 	var arr []interface{}
 	count := 1
@@ -61,10 +61,10 @@ func (p *AuthorStorage) GetAll(author *pb.AuthorReq) (*pb.AllAuthors, error) {
 		WHERE deleted_at = 0 
 	`
 
-	if len(author.Name) > 0 {
+	if len(filter.Name) > 0 {
 		query += fmt.Sprintf(" and name=$%d ", count)
 		count++
-		arr = append(arr, author.Name)
+		arr = append(arr, filter.Name)
 	}
 
 	row, err := p.db.Query(query, arr...)

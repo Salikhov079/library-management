@@ -14,7 +14,7 @@ type StorageRoot interface {
 type Book interface {
 	Create(book *pb.BookReq) (*pb.Void, error)
 	GetById(id *pb.ById) (*pb.BookRes, error)
-	GetAll(_ *pb.BookReq) (*pb.AllBooks, error)
+	GetAll(filter *pb.FilterBook) (*pb.AllBooks, error)
 	Update(book *pb.BookRes) (*pb.Void, error)
 	Delete(id *pb.ById) (*pb.Void, error)
 }
@@ -22,7 +22,7 @@ type Book interface {
 type Author interface {
 	Create(author *pb.AuthorReq) (*pb.Void, error)
 	GetById(id *pb.ById) (*pb.AuthorRes, error)
-	GetAll(_ *pb.AuthorReq) (*pb.AllAuthors, error)
+	GetAll(filter *pb.FilterAuthor) (*pb.AllAuthors, error)
 	Update(author *pb.AuthorRes) (*pb.Void, error)
 	Delete(id *pb.ById) (*pb.Void, error)
 }
@@ -30,7 +30,7 @@ type Author interface {
 type Genre interface {
 	Create(author *pb.Genre) (*pb.Void, error)
 	GetById(id *pb.ById) (*pb.Genre, error)
-	GetAll(_ *pb.Genre) (*pb.AllGenres, error)
+	GetAll(filter *pb.FilterGenre) (*pb.AllGenres, error)
 	Update(author *pb.Genre) (*pb.Void, error)
 	Delete(id *pb.ById) (*pb.Void, error)
 }
@@ -38,7 +38,8 @@ type Genre interface {
 type Borrower interface {
 	Create(author *pb.BorrowerReq) (*pb.Void, error)
 	GetById(id *pb.ById) (*pb.BorrowerRes, error)
-	GetAll(_ *pb.BorrowerReq) (*pb.AllBorrowers, error)
+	GetAll(filter *pb.FilterBorrower) (*pb.AllBorrowers, error)
 	Update(author *pb.BorrowerRes) (*pb.Void, error)
 	Delete(id *pb.ById) (*pb.Void, error)
+	GetAllId(*pb.Void) (*pb.AllBorrowers, error)
 }

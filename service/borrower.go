@@ -26,13 +26,11 @@ func (c *BorrowerService) CreateBorrower(ctx context.Context, borrower *pb.Borro
 	return res, err
 }
 
-func (c *BorrowerService) GetAllBorrowers(ctx context.Context, borrower *pb.BorrowerReq) (*pb.AllBorrowers, error) {
-	res, err := c.stg.Borrower().GetAll(borrower)
+func (c *BorrowerService) GetAllBorrowers(ctx context.Context, filter *pb.FilterBorrower) (*pb.AllBorrowers, error) {
+	res, err := c.stg.Borrower().GetAll(filter)
 	if err != nil {
 		log.Print(err)
 	}
-	
-
 
 	return res, err
 }
@@ -57,6 +55,15 @@ func (c *BorrowerService) UpdateBorrower(ctx context.Context, Borrower *pb.Borro
 
 func (c *BorrowerService) DeleteBorrower(ctx context.Context, id *pb.ById) (*pb.Void, error) {
 	res, err := c.stg.Borrower().Delete(id)
+	if err != nil {
+		log.Print(err)
+	}
+
+	return res, err
+}
+
+func (c *BorrowerService) GetAllIdBorrowers(ctx context.Context, v *pb.Void) (*pb.AllBorrowers, error) {
+	res, err := c.stg.Borrower().GetAllId(v)
 	if err != nil {
 		log.Print(err)
 	}

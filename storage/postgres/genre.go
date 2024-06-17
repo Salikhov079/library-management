@@ -49,7 +49,7 @@ func (p *GenreStorage) GetById(id *pb.ById) (*pb.Genre, error) {
 	return &genre, nil
 }
 
-func (p *GenreStorage) GetAll(genre *pb.Genre) (*pb.AllGenres, error) {
+func (p *GenreStorage) GetAll(filter *pb.FilterGenre) (*pb.AllGenres, error) {
 	genres := &pb.AllGenres{}
 	var arr []interface{}
 	count := 1
@@ -60,10 +60,10 @@ func (p *GenreStorage) GetAll(genre *pb.Genre) (*pb.AllGenres, error) {
 		WHERE deleted_at = 0 
 	`
 
-	if len(genre.Name) > 0 {
+	if len(filter.Name) > 0 {
 		query += fmt.Sprintf(" and name=$%d ", count)
 		count++
-		arr = append(arr, genre.Name)
+		arr = append(arr, filter.Name)
 	}
 
 	row, err := p.db.Query(query, arr...)

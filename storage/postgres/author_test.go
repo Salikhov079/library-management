@@ -48,7 +48,7 @@ func TestGetAllAuthor(t *testing.T) {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
 
-	authors, err := stg.Author().GetAll(&pb.AuthorReq{})
+	authors, err := stg.Author().GetAll(&pb.FilterAuthor{})
 	assert.NoError(t, err)
 	assert.NotNil(t, authors)
 }

@@ -26,8 +26,8 @@ func (c *BookService) CreateBook(ctx context.Context, book *pb.BookReq) (*pb.Voi
 	return res, err
 }
 
-func (c *BookService) GetAllBooks(ctx context.Context, book *pb.BookReq) (*pb.AllBooks, error) {
-	res, err := c.stg.Book().GetAll(book)
+func (c *BookService) GetAllBooks(ctx context.Context, filter *pb.FilterBook) (*pb.AllBooks, error) {
+	res, err := c.stg.Book().GetAll(filter)
 	if err != nil {
 		log.Print(err)
 	}

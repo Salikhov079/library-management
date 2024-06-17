@@ -64,7 +64,7 @@ func (p *BookStorage) GetById(id *pb.ById) (*pb.BookRes, error) {
 	return &book, nil
 }
 
-func (p *BookStorage) GetAll(book *pb.BookReq) (*pb.AllBooks, error) {
+func (p *BookStorage) GetAll(filter *pb.FilterBook) (*pb.AllBooks, error) {
 	books := &pb.AllBooks{}
 	var arr []interface{}
 	count := 1
@@ -82,10 +82,16 @@ func (p *BookStorage) GetAll(book *pb.BookReq) (*pb.AllBooks, error) {
 				b.deleted_at = 0
 		`
 
-	if len(book.Title) > 0 {
-		query += fmt.Sprintf(" and title=$%d ", count)
+	if len(filter.Title) > 0 {
+		query += fmt.Sprintf(" and b.title=$%d ", count)
 		count++
-		arr = append(arr, book.Title)
+		arr = append(arr, filter.Title)
+	}
+
+	if len(filter.AuthorName) > 0 {
+		query += fmt.Sprintf(" and a.name=$%d ", count)
+		count++
+		arr = append(arr, filter.AuthorName)
 	}
 
 	row, err := p.db.Query(query, arr...)
@@ -122,7 +128,7 @@ func (p *BookStorage) Update(book *pb.BookRes) (*pb.Void, error) {
 		SET title = $2, author_id = $3, genre_id = $4, summary = $5, updated_at = now()
 		WHERE id = $1 and deleted_at = 0
 	`
-	_, err := p.db.Exec(query, book.Id ,book.Title, book.Author.Id, book.Genre.Id, book.Summary)
+	_, err := p.db.Exec(query, book.Id, book.Title, book.Author.Id, book.Genre.Id, book.Summary)
 	return nil, err
 }
 

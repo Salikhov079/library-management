@@ -26,8 +26,8 @@ func (c *GenreService) CreateGenre(ctx context.Context, genre *pb.Genre) (*pb.Vo
 	return res, err
 }
 
-func (c *GenreService) GetAllGenres(ctx context.Context, genre *pb.Genre) (*pb.AllGenres, error) {
-	res, err := c.stg.Genre().GetAll(genre)
+func (c *GenreService) GetAllGenres(ctx context.Context, filter *pb.FilterGenre) (*pb.AllGenres, error) {
+	res, err := c.stg.Genre().GetAll(filter)
 	if err != nil {
 		log.Print(err)
 	}
