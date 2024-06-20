@@ -35,4 +35,4 @@ CREATE TABLE IF NOT EXISTS borrowers (
     created_at TIMESTAMP DEFAULT now(),
     updated_at TIMESTAMP DEFAULT now(),
     deleted_at BIGINT DEFAULT 0
-)
+);
