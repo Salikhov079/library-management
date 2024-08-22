@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+
+  # library-service
+  library-service:
+    container_name: library-service
+    build: ./
+    ports:
+      - "6060:6060"
